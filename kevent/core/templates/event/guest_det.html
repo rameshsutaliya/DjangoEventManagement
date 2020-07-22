@@ -1,0 +1,14 @@
+{%extends "base.html"%}
+{%block head%}
+<title> {{guest.name}}</title>
+{%endblock%}
+{%block body%}
+<div class="fluid-container">
+Guest Name:{{guest.name}}<br>
+Guest Profile: {{guest.profile}}<br>
+Organization: {{guest.organization}}<br>
+{#% for i in guest.eventname %#}
+Event Name:{{guest.eventname.title}}
+{#% endfor %#}
+</div>
+{%endblock%}

@@ -1,0 +1,11 @@
+<html>
+<body>
+{% if event %}
+    <a href="{% url 'event' pk=event.pk %}">
+    <!--Upon successful search book image with hyperlink appears -->
+    <img src="{{event.poster.url}}" alt="No Image"></a>
+    <p>{{event.title}}</p>
+    <p>Event Containts.{{event.body}}</p>   
+{% endif %}
+</body>
+</html>

@@ -1,0 +1,50 @@
+{% extends 'base.html'%}
+{%block head%}
+<title>Event List</title>
+{%endblock%}
+{%block body%}
+{% if request.user.is_authenticated %}
+<div class="container">
+<h1 class="h3">{{event.title}}</h1>
+<div class="fluid-container">
+<img src="{{ event.event_poster.url }}" alt="{{ event.poster.name }}" height=100% width=100%>
+</div>
+<h3 class="h3"><a href="{% url 'eventdet' event.id%}">{{event.title}}</a></h3>{{event.date_start|date:"Y-m-d"}} to {{event.date_end|date:"Y-m-d"}}<hr>
+<div class="container">
+{{event.body|safe|linebreaks}}
+</div>
+<h2 class="h4">Event Catagery :{{event.event_cate}}</h2>
+<a href={{event.event_web}}>Event website </a><br>
+<h3 class="h3">Venue</h3>
+<address>
+{{event.event_addr1}}<br>
+{{event.event_addr2}}<br>
+{{event.event_addr3}},{{event.zipcode}}<br>
+{{event.event_addr4}}<br>
+</address>
+{% if event.guest_set.all %}
+<h4 class="h4">Guest's in the Event</h4><br>
+{% for guest in event.guest_set.all %}
+<l1>{{guest.name}}</li><br>
+Organization of the Guest:{{guest.organization}}<br>
+Guest Profile in the Organization :{{guest.profile}}<br>
+{%endfor%}
+{% else%}
+<h4>Guest Information not Updated</h4>
+{% endif %}
+{%if event.uploadmedai_set.all %}
+{%for uploaded in event.uploadmedai_set.all%}
+	{% if uploaded.image %}
+		<img src="{{ uploaded.image.url }}" alt="{{ uploaded.image.name }}" height=50% width=70%>
+	{%endif%}
+	{%if uploaded.pdf %}
+		Check the pdf at <a href="{% url 'uploaded.pdf.url' %}">here</a>
+	{%endif%}
+		{%if uploaded.video%}
+		{{uploaded.video.url}}
+{%endif%}
+{%endfor%}
+{% endif %}
+</div>
+{%endif%}
+{% endblock %}

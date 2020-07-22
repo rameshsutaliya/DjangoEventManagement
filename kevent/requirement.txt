@@ -1,0 +1,5 @@
+celery
+django-cleanup
+django==2.1
+redis-server (with root user)
+Pillow

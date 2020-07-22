@@ -1,0 +1,18 @@
+{%extends "base.html"%}
+{%block head%}
+<title>Guest List</title>
+{%endblock%}
+{%block body%}
+{% if request.user.is_authenticated %}
+{% for guest in object_list %}
+<div class="container">
+<div class="fluid-container">
+<a href="{% url 'guestdet' guest.id %}" ><h3 class="h3">{{guest.name}}</h3><a>
+{{guest.eventname.title}}<br>
+<img src="{{guest.eventname.event_poster.url}}" height="200" width="300"><br>
+
+</div>
+</div>
+{% endfor %}
+{%endif%}
+{% endblock %}
