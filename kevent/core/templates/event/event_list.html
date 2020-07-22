@@ -1,0 +1,64 @@
+{% extends 'base.html'%}
+{%block head%}
+<title>Event List</title>
+{%endblock%}
+{%block body%}
+{{ generated.rendered_datetime }}
+{% now "Y-m-d" as todays_date %}
+{% if is_paginated %}
+<!--paginator.count it will give me the total number of the pages-->
+{#This is  a comment in the jinja #}
+{#% if loop.index is divisibleby 3 %#}
+{#% if loop.index is divisibleby(3) %#}
+
+{{ page_obj.start_index}}
+	<ul class="pagination">
+		{% if page_obj.has_previous %}
+			<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+		{% else %}
+			<li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+		{% endif %}
+		
+		{% for i in paginator.page_range %}
+			{% if page_obj.number == i %}
+				<li class="page-item active"><span class="page-link">{{i}}<span class="sr-only">current</span></span></li>
+			{% else %}
+				<li class="page-item"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
+			{% endif %}
+		{% endfor %}
+		{% if page_obj.has_next %}
+			<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+		{% else %}
+			<li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+		{% endif %}
+	</ul>
+{% endif %}
+			
+			
+			
+			<h1 class="h2">These are Upcoming Events:</h1>
+			{% for event in object_list %}
+	{% if todays_date <= event.date_start|date:"Y-m-d" %}
+		<div class="container">
+			<div class="fluid-container">
+					<img src="{{ event.event_poster.url }}" alt="{{ event.poster.name }}" height="40%" width="40%">
+					<h3 class="h3"><a href="{% url 'eventdet' event.id%}">{{event.title}}</a></h3>{{event.date_start|date:"Y-m-d"}}<hr>
+			</div>
+			
+		</div>
+	{%endif%}
+{% endfor %}
+<h1 class="h2">These are Past Events:</h1>
+{% for event in object_list %}
+	{% if todays_date > event.date_start|date:"Y-m-d" %}
+		<div class="container">
+			<div class="fluid-container">
+					<img src="{{ event.event_poster.url }}" alt="{{ event.poster.name }}" height="40%" width="40%">
+			</div>
+			<h3 class="h3"><a href="{% url 'eventdet' event.id%}">{{event.title}}</a></h3>{{event.date_start|date:"Y-m-d"}}<hr>
+		</div>
+	{%endif%}
+	
+{% endfor %}
+
+{% endblock %}

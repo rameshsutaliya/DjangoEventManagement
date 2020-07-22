@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block head %}<title>KiiT Event</title>{% endblock %}
+
+{% block body %}
+{{ generated.rendered_datetime }}
+{% now "Y-m-d" as todays_date %}
+<div class="row">
+	<div class="col-8">
+		<div>
+			<ul>
+				<h1>UpComing Events </h1>
+  				{% for e in event%}
+  					{% if todays_date <= e.date_start|date:"Y-m-d" %}
+  						<a href="{%url 'eventdet' e.id %}" ><li>{{e.title}}</li></a>
+  						<p>On {{e.date_start|date:'Y-m-d H:i'}}<span></span> to {{e.date_end|date:'Y-m-d H:i'}}</p>
+  					{% endif %}
+  				{% endfor %}
+  			</ul>
+  		</div>
+  	
+  </div>
+  <div class="col-4">
+		<ul><h1>Guests</h1>
+  		{% for e in guest%}
+  			<a href="{% url "guestdet" e.id %}"><li>{{e.name}}</li></a>
+  		{% endfor %}
+  	</ul>
+  </div>
+</div>
+
+{% endblock %}
+
